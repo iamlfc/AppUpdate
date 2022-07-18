@@ -15,6 +15,7 @@ import com.azhon.appupdate.utils.Constant;
 import com.azhon.appupdate.utils.LogUtil;
 
 import java.lang.ref.SoftReference;
+import java.util.HashMap;
 
 /**
  * 项目名:    AppUpdate
@@ -30,7 +31,8 @@ import java.lang.ref.SoftReference;
 public class DownloadManager {
 
     private static final String TAG = Constant.TAG + "DownloadManager";
-
+    //    扩展请求头信息
+    private HashMap headMap = new HashMap<String, String>();
     /**
      * 上下文
      */
@@ -133,6 +135,21 @@ public class DownloadManager {
      */
     public DownloadManager setApkUrl(String apkUrl) {
         this.apkUrl = apkUrl;
+        return this;
+    }
+
+    /**
+     * 获取apk下载地址
+     */
+    public HashMap getExtraMap() {
+        return headMap;
+    }
+
+    /**
+     * 设置apk下载地址
+     */
+    public DownloadManager setHeadMap(HashMap map) {
+        this.headMap.putAll(map);
         return this;
     }
 

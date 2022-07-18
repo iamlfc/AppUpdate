@@ -2,6 +2,8 @@ package com.azhon.appupdate.base;
 
 import com.azhon.appupdate.listener.OnDownloadListener;
 
+import java.util.HashMap;
+
 /**
  * 项目名:    AppUpdate
  * 包名       com.azhon.appupdate.base
@@ -23,6 +25,15 @@ public abstract class BaseHttpDownloadManager {
      * @param listener 回调
      */
     public abstract void download(String apkUrl, String apkName, OnDownloadListener listener);
+
+    /**
+     * 下载apk
+     *
+     * @param apkUrl   apk下载地址
+     * @param apkName  apk名字
+     * @param listener 回调
+     */
+    public abstract void download(String apkUrl, String apkName, HashMap<String,String> map, OnDownloadListener listener);
 
     /**
      * 取消下载apk

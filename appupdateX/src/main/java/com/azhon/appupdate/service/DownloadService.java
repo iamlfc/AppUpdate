@@ -22,6 +22,7 @@ import com.azhon.appupdate.utils.LogUtil;
 import com.azhon.appupdate.utils.NotificationUtil;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -43,6 +44,8 @@ public final class DownloadService extends Service implements OnDownloadListener
     private int smallIcon;
     private String apkUrl;
     private String apkName;
+    private HashMap headMap = new HashMap<String, String>();
+
     private String downloadPath;
     private List<OnDownloadListener> listeners;
     private boolean showNotification;
@@ -70,6 +73,7 @@ public final class DownloadService extends Service implements OnDownloadListener
         }
         apkUrl = downloadManager.getApkUrl();
         apkName = downloadManager.getApkName();
+        headMap=downloadManager.getExtraMap();
         downloadPath = downloadManager.getDownloadPath();
         smallIcon = downloadManager.getSmallIcon();
         //创建apk文件存储文件夹
@@ -121,7 +125,7 @@ public final class DownloadService extends Service implements OnDownloadListener
             configuration.setHttpManager(httpManager);
         }
         //如果用户自己定义了下载过程
-        httpManager.download(apkUrl, apkName, this);
+        httpManager.download(apkUrl, apkName, headMap,this);
         downloadManager.setState(true);
     }
 
