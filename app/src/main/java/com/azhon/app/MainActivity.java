@@ -12,6 +12,8 @@ import com.azhon.appupdate.listener.OnButtonClickListener;
 import com.azhon.appupdate.listener.OnDownloadListenerAdapter;
 import com.azhon.appupdate.manager.DownloadManager;
 
+import java.util.HashMap;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -135,13 +137,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setOnDownloadListener(listenerAdapter);
 
         manager = DownloadManager.getInstance(this);
+        HashMap headMap = new HashMap<String, String>();
+//        headMap.put("Content-Type", "application/json;charset=UTF-8");
+//        String strUrl = "http://ny.shuahanghuai.net:7083/iiot-img-store/20220716175056364.apk";
+        headMap.put("X-Forward-IP", "10.1.6.112:9010");
+        headMap.put("test", "top_lfc");
         manager.setApkName("ESFileExplorer.apk")
                 .setApkUrl(url)
+                .setHeadMap(headMap)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setShowNewerToast(true)
                 .setConfiguration(configuration)
-                .setApkVersionCode(2)
-                .setApkVersionName("2.1.8")
+                .setApkVersionCode(3)
+                .setApkVersionName("2.1.9")
                 .setApkSize("20.4")
                 .setApkDescription(getString(R.string.dialog_msg))
 //                .setApkMD5("DC501F04BBAA458C9DC33008EFED5E7F")

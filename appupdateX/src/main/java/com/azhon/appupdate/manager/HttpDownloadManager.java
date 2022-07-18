@@ -1,6 +1,6 @@
 package com.azhon.appupdate.manager;
 
-import androidx.annotation.NonNull;
+import android.util.Log;
 
 import com.azhon.appupdate.base.BaseHttpDownloadManager;
 import com.azhon.appupdate.listener.OnDownloadListener;
@@ -14,10 +14,13 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
 
 /**
  * 项目名:    AppUpdate
@@ -35,6 +38,7 @@ public class HttpDownloadManager extends BaseHttpDownloadManager {
     private static final String TAG = Constant.TAG + "HttpDownloadManager";
     private String apkUrl;
     private String apkName;
+    private HashMap headMap = new HashMap<String, String>();
     private boolean shutdown = false;
     private final String downloadPath;
     private OnDownloadListener listener;
@@ -56,6 +60,15 @@ public class HttpDownloadManager extends BaseHttpDownloadManager {
     public void download(String apkUrl, String apkName, OnDownloadListener listener) {
         this.apkUrl = apkUrl;
         this.apkName = apkName;
+        this.listener = listener;
+        executor.execute(runnable);
+    }
+
+    @Override
+    public void download(String apkUrl, String apkName, HashMap<String, String> map, OnDownloadListener listener) {
+        this.apkUrl = apkUrl;
+        this.apkName = apkName;
+        this.headMap = map;
         this.listener = listener;
         executor.execute(runnable);
     }
@@ -86,11 +99,20 @@ public class HttpDownloadManager extends BaseHttpDownloadManager {
      * 全部下载
      */
     private void fullDownload() {
-        if (listener != null) listener.start();
+        if (listener != null)
+            listener.start();
         try {
             URL url = new URL(apkUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
+            for (Object obj : headMap.keySet()) {
+                String strKey = (String) obj;
+                String strValue = (String) headMap.get(strKey);
+                con.setRequestProperty(strKey, strValue);
+                Log.d("--lfc", strKey + "--" + strValue);
+
+            }
+
             con.setReadTimeout(Constant.HTTP_TIME_OUT);
             con.setConnectTimeout(Constant.HTTP_TIME_OUT);
             con.setRequestProperty("Accept-Encoding", "identity");
@@ -107,15 +129,18 @@ public class HttpDownloadManager extends BaseHttpDownloadManager {
                     //将获取到的流写入文件中
                     stream.write(buffer, 0, len);
                     progress += len;
-                    if (listener != null) listener.downloading(length, progress);
+                    if (listener != null)
+                        listener.downloading(length, progress);
                 }
                 if (shutdown) {
                     //取消了下载 同时再恢复状态
                     shutdown = false;
                     LogUtil.d(TAG, "fullDownload: 取消了下载");
-                    if (listener != null) listener.cancel();
+                    if (listener != null)
+                        listener.cancel();
                 } else {
-                    if (listener != null) listener.done(file);
+                    if (listener != null)
+                        listener.done(file);
                 }
                 //完成io操作,释放资源
                 stream.flush();
@@ -134,7 +159,8 @@ public class HttpDownloadManager extends BaseHttpDownloadManager {
             }
             con.disconnect();
         } catch (Exception e) {
-            if (listener != null) listener.error(e);
+            if (listener != null)
+                listener.error(e);
             e.printStackTrace();
         }
     }
