@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         // classpath 'com.android.tools.build:gradle:7.2.2'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0' // 添加这行配置
+        classpath 'com.android.tools.build:gradle:8.5.2' // 添加这行配置
     }
 }
 
@@ -22,5 +23,5 @@ ext {
     compileSdk = 33
     targetSdk = 33
     minSdk = 16
-    publishVersion = "4.3.42"
+    publishVersion = "4.3.43"
 }
