@@ -72,9 +72,15 @@ class UpdateDialogActivity : AppCompatActivity(), View.OnClickListener {
             LogUtil.e(TAG, "An exception occurred by DownloadManager=null,please check your code!")
             return
         }
-        if (manager!!.forcedUpgrade) {
+        if (manager?.isShowBackgroundBtn == true) {
+            if (manager!!.forcedUpgrade) {
+                manager!!.onDownloadListeners.add(listenerAdapter)
+            }
+        } else {
             manager!!.onDownloadListeners.add(listenerAdapter)
+
         }
+
         setWindowSize()
         initView(manager!!)
     }
@@ -88,7 +94,13 @@ class UpdateDialogActivity : AppCompatActivity(), View.OnClickListener {
         val tvDescription = findViewById<TextView>(R.id.tv_description)
         progressBar = findViewById(R.id.np_bar)
         btnUpdate = findViewById(R.id.btn_update)
-        progressBar.visibility = if (manager.forcedUpgrade) View.VISIBLE else View.GONE
+        progressBar.visibility =
+            if (manager.isShowBackgroundBtn) {
+                if (manager.forcedUpgrade) View.VISIBLE else View.GONE
+            } else {
+                View.VISIBLE
+            }
+
         btnUpdate.tag = 0
         btnUpdate.setOnClickListener(this)
         ibClose.setOnClickListener(this)
@@ -190,7 +202,12 @@ class UpdateDialogActivity : AppCompatActivity(), View.OnClickListener {
             btnUpdate.isEnabled = false
             btnUpdate.text = resources.getString(R.string.app_update_background_downloading)
         } else {
-            finish()
+            if (manager?.isShowBackgroundBtn == true){
+                finish()
+            }else{
+                btnUpdate.isEnabled = false
+                btnUpdate.text = resources.getString(R.string.app_update_updateing)
+            }
         }
         manager?.onButtonClickListener?.onButtonClick(OnButtonClickListener.UPDATE)
         startService(Intent(this, DownloadService::class.java))
@@ -210,7 +227,12 @@ class UpdateDialogActivity : AppCompatActivity(), View.OnClickListener {
     private val listenerAdapter: OnDownloadListenerAdapter = object : OnDownloadListenerAdapter() {
         override fun start() {
             btnUpdate.isEnabled = false
-            btnUpdate.text = resources.getString(R.string.app_update_background_downloading)
+            btnUpdate.text =
+                if (manager?.isShowBackgroundBtn == true){
+                    resources.getString(R.string.app_update_background_downloading)
+                }else{
+                    resources.getString(R.string.app_update_updateing)
+                }
         }
 
         override fun downloading(max: Int, progress: Int) {

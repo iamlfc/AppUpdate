@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnButtonClickLis
             showNotification(true)
             showBgdToast(false)
             forcedUpgrade(false)
+            isShowBackgroundBtn(false)// 是否展示 后台下载按钮  true  默认值
             onDownloadListener(listenerAdapter)
 //            apkMD5("DC501F04BBAA458C9DC33008EFED5E7F")
 //            httpManager()

@@ -64,6 +64,7 @@ class DownloadManager private constructor(builder: Builder) : Serializable {
     internal var jumpInstallPage: Boolean
     internal var showBgdToast: Boolean
     internal var forcedUpgrade: Boolean
+    internal var isShowBackgroundBtn: Boolean
     internal var notifyId: Int
     internal var dialogImage: Int
     internal var dialogButtonColor: Int
@@ -92,6 +93,7 @@ class DownloadManager private constructor(builder: Builder) : Serializable {
         jumpInstallPage = builder.jumpInstallPage
         showBgdToast = builder.showBgdToast
         forcedUpgrade = builder.forcedUpgrade
+        isShowBackgroundBtn = builder.isShowBackgroundBtn
         notifyId = builder.notifyId
         dialogImage = builder.dialogImage
         dialogButtonColor = builder.dialogButtonColor
@@ -294,7 +296,10 @@ class DownloadManager private constructor(builder: Builder) : Serializable {
          * Whether to force an upgrade
          */
         internal var forcedUpgrade = false
-
+        /**
+         * Whether to  show background  button
+         */
+        internal var isShowBackgroundBtn = true
         /**
          * Notification id
          */
@@ -405,7 +410,10 @@ class DownloadManager private constructor(builder: Builder) : Serializable {
             this.forcedUpgrade = forcedUpgrade
             return this
         }
-
+        fun isShowBackgroundBtn(isShowBtn: Boolean): Builder {
+            this.isShowBackgroundBtn = isShowBtn
+            return this
+        }
         fun notifyId(notifyId: Int): Builder {
             this.notifyId = notifyId
             return this
