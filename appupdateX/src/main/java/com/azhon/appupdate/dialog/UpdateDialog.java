@@ -48,6 +48,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener, OnDown
     private Context context;
     private DownloadManager manager;
     private boolean forcedUpgrade;
+    private boolean isShowBackgroundBtn;
     private Button update;
     private Button btn_background;
     private NumberProgressBar progressBar;
@@ -70,6 +71,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener, OnDown
         UpdateConfiguration configuration = manager.getConfiguration();
         configuration.setOnDownloadListener(this);
         forcedUpgrade = configuration.isForcedUpgrade();
+        isShowBackgroundBtn = configuration.isShowBackgroundBtn();
         buttonClickListener = configuration.getOnButtonClickListener();
         dialogImage = configuration.getDialogImage();
         dialogButtonTextColor = configuration.getDialogButtonTextColor();
@@ -140,6 +142,12 @@ public class UpdateDialog extends Dialog implements View.OnClickListener, OnDown
             size.setText(String.format(newVersionSize, manager.getApkSize()));
             size.setVisibility(View.VISIBLE);
         }
+        if (!isShowBackgroundBtn) {
+            btn_background.setText(context.getResources().getString(R.string.background_updateing));
+        } else {
+            btn_background.setText(context.getResources().getString(R.string.background_update));
+
+        }
         description.setText(manager.getApkDescription());
     }
 
@@ -183,7 +191,8 @@ public class UpdateDialog extends Dialog implements View.OnClickListener, OnDown
             }
             context.startService(new Intent(context, DownloadService.class));
         } else if (id == R.id.btn_background) {
-            dismiss();
+            if (isShowBackgroundBtn)
+                dismiss();
         }
     }
 

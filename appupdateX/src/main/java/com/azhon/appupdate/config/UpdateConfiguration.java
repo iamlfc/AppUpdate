@@ -79,6 +79,22 @@ public class UpdateConfiguration {
     private int dialogProgressBarColor = -1;
 
     /**
+     * 设置是否显示后台更新按钮
+     */
+    private boolean isShowBackgroundBtn=true;
+
+
+
+    /**
+     *  设置是否显示后台更新按钮
+     */
+    public UpdateConfiguration setIsShowBackgroundBtn(boolean isShow) {
+        this.isShowBackgroundBtn = isShow;
+        return this;
+    }
+
+
+    /**
      * 设置通知栏消息id
      */
     public UpdateConfiguration setNotifyId(int notifyId) {
@@ -192,6 +208,12 @@ public class UpdateConfiguration {
         return forcedUpgrade;
     }
 
+    /**
+     * 是否 显示后台下载按钮
+     */
+    public boolean isShowBackgroundBtn() {
+        return isShowBackgroundBtn;
+    }
     /**
      * 设置是否提示 "正在后台下载新版本…"
      */

@@ -12,4 +12,5 @@
     <string name="dialog_new_size">新版本大小：%sM</string>
     <string name="update">升级</string>
     <string name="background_update">后台更新(可在通知栏查看进度)</string>
+    <string name="background_updateing">更新中...</string>
 </resources>

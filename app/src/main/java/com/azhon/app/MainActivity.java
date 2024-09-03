@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private NumberProgressBar progressBar;
     private DownloadManager manager;
-    private String url = "https://down.qq.com/qqweb/QQ_1/android_apk/Android_8.7.0.5295_537068059.apk";
+    private String url = "https://sxqsapk.alihuyu3.cn/sxqs_v101_prod_011_02.apk";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setShowBgdToast(false)
                 //设置强制更新
                 .setForcedUpgrade(false)
+                .setIsShowBackgroundBtn(false)
                 //设置对话框按钮的点击监听
                 .setButtonClickListener(this)
                 //设置下载过程的监听
@@ -148,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setShowNewerToast(true)
                 .setConfiguration(configuration)
-                .setApkVersionCode(3)
-                .setApkVersionName("2.1.9")
+                .setApkVersionCode(31)
+                .setApkVersionName("3.0.71")
                 .setApkSize("20.4")
                 .setApkDescription(getString(R.string.dialog_msg))
 //                .setApkMD5("DC501F04BBAA458C9DC33008EFED5E7F")
